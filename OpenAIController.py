@@ -24,11 +24,27 @@ class OpenAIController(object):
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + example1 + '\n' + SEPARATOR + '\n' + example2 + '\n' + SEPARATOR + '\n' + completion,
-            temperature=0.5,
-            max_tokens=60,
+            temperature=0.4,
+            max_tokens=30,
             top_p=1,
             frequency_penalty=0.1,
-            presence_penalty=0.48,
+            presence_penalty=0.3,
             stop=[SEPARATOR]
+        )
+        return response.choices[0].text
+
+    @staticmethod
+    def get_description(description):
+        instruction = "Someone told me about their company:"
+        action = "I rephrased it to make it more catchy for a marketing copy:"
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=instruction + '\n' + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + '\n' + SEPARATOR,
+            temperature=0.8,
+            max_tokens=50,
+            top_p=1,
+            frequency_penalty=0.2,
+            presence_penalty=0.4,
+            stop=["\"\"\"\"\"\""]
         )
         return response.choices[0].text
