@@ -13,11 +13,17 @@ class OpenAIController(object):
 
     @staticmethod
     def get_tagline(description):
-        instruction = "Write a copy title for the following product:"
-        action = "This is the title tagline I wrote for the product's page:"
+        instruction = "This is a tagline generator for companies."
+        example1 = "Company description: Pitch is uncompromisingly good presentation software, enabling modern teams " \
+                   "to craft and distribute beautiful presentations more effectively." \
+                   "\nTagline: The new face of presentations."
+        example2 = "Company description: Testimonial.to allows you to embed video testimonials to your website with " \
+                   "no coding to increase conversion on your site.\nTagline: Get video testimonials from your " \
+                   "customers with ease"
+        completion = "Company description: {}.\nTagline:".format(description)
         response = openai.Completion.create(
             engine="davinci",
-            prompt=instruction + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + SEPARATOR,
+            prompt=instruction + SEPARATOR + '\n' + example1 + '\n' + SEPARATOR + '\n' + example2 + '\n' + SEPARATOR + '\n' + completion,
             temperature=0.5,
             max_tokens=60,
             top_p=1,
@@ -25,4 +31,4 @@ class OpenAIController(object):
             presence_penalty=0.48,
             stop=[SEPARATOR]
         )
-        print(response.choices[0].text)
+        return response.choices[0].text
