@@ -1,5 +1,6 @@
 from dotenv import dotenv_values
 import openai
+import re
 
 openai.api_key = dotenv_values(".env")['OPENAI_API_KEY']
 
@@ -45,7 +46,7 @@ class OpenAIController(object):
             top_p=1,
             frequency_penalty=0.2,
             presence_penalty=0.4,
-            stop=["\"\"\"\"\"\""]
+            stop=[SEPARATOR]
         )
         return response.choices[0].text
 
@@ -65,3 +66,29 @@ class OpenAIController(object):
         )
         print(response.choices[0].text)
 
+    @staticmethod
+    def get_pricing_features(description):
+        instruction = "This is a company:"
+        action = "I wrote 3 features for these plans: START, PRO and BUSINESS:"
+        prompt = instruction + '\n'+SEPARATOR+'\n' + description + '\n'+SEPARATOR+'\n' + action + '\n\n'
+        response_start = openai.Completion.create(
+            engine="davinci",
+            prompt=prompt + 'START\n1.',
+            temperature=0.8, max_tokens=50, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+        )
+        response_pro = openai.Completion.create(
+            engine="davinci",
+            prompt=prompt + 'PRO\n1.',
+            temperature=0.8, max_tokens=50, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+        )
+        response_business = openai.Completion.create(
+            engine="davinci",
+            prompt=prompt + 'BUSINESS\n1.',
+            temperature=0.8, max_tokens=50, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+        )
+
+        start_features = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response_start.choices[0].text)))
+        pro_features = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response_pro.choices[0].text)))
+        business_features = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response_business.choices[0].text)))
+
+        return {"start": start_features, "pro": pro_features, "business": business_features}
