@@ -48,3 +48,20 @@ class OpenAIController(object):
             stop=["\"\"\"\"\"\""]
         )
         return response.choices[0].text
+
+    @staticmethod
+    def get_sample_testimonial_bio(description):
+        instruction = "A good description of the product:"
+        action = "This is product's user experience:"
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=instruction + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + SEPARATOR,
+            temperature=0.5+0.3,
+            max_tokens=60,
+            top_p=1,
+            frequency_penalty=0.1+0.3,
+            presence_penalty=0.48+0.3,
+            stop=[SEPARATOR]
+        )
+        print(response.choices[0].text)
+
