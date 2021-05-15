@@ -122,28 +122,35 @@ class OpenAIController(object):
     @staticmethod
     def get_pricing_features(description):
         print('Generating pricing...')
+
         instruction = "This is a company:"
         action = "I wrote 3 features for these plans: START, PRO and BUSINESS:"
-        prompt = instruction + '\n'+SEPARATOR+'\n' + description + '\n'+SEPARATOR+'\n' + action + '\n\n'
+        prompt = instruction + '\n' + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + '\n\n'
         response_start = openai.Completion.create(
             engine="davinci",
             prompt=prompt + 'START\n1.',
-            temperature=0.8, max_tokens=50, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
         )
         response_pro = openai.Completion.create(
             engine="davinci",
             prompt=prompt + 'PRO\n1.',
-            temperature=0.8, max_tokens=50, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
         )
         response_business = openai.Completion.create(
             engine="davinci",
             prompt=prompt + 'BUSINESS\n1.',
-            temperature=0.8, max_tokens=50, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
         )
 
-        start_features = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response_start.choices[0].text)))
-        pro_features = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response_pro.choices[0].text)))
-        business_features = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response_business.choices[0].text)))
+        start_features = list(
+            map(lambda feature: ' '.join(feature.split()),
+                re.split('\d\.', response_start.choices[0].text)))
+        pro_features = list(
+            map(lambda feature: ' '.join(feature.split()),
+                re.split('\d\.', response_pro.choices[0].text)))
+        business_features = list(
+            map(lambda feature: ' '.join(feature.split()),
+                re.split('\d\.', response_business.choices[0].text)))
 
         return {"start": start_features, "pro": pro_features, "business": business_features}
 
@@ -154,7 +161,7 @@ class OpenAIController(object):
         instruction = "This is a generator of websites with blocks. The available blocks are contact, features, footer, hero, navbar, pricing, and testimonial.\n"
         example1 = "Description: Landing page for a SaaS product:\n- navbar\n- hero\n- features\n- testimonial\n- pricing\n"
         example2 = "Description: Landing page for a lawyer's firm:\n- hero\n- testimonial\n- contact\n- footer\n"
-        completion = "Description: Landing page for{}.\n-".format(product_type)
+        completion = "Description: Landing page for {}.\n-".format(product_type)
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + example1 + SEPARATOR + '\n' + example2 + SEPARATOR + '\n' + completion,
@@ -165,4 +172,41 @@ class OpenAIController(object):
             presence_penalty=0,
             stop=[SEPARATOR]
         )
-        return list(map(lambda feature: ' '.join(feature.split()), re.split('- ', response.choices[0].text)))
+        return list(map(lambda feature: ' '.join(feature.split()).lower(), re.split('- ', response.choices[0].text)))
+
+    @staticmethod
+    def get_image_keywords(description):
+        print('Generating keywords...')
+
+        instruction = "Text: {}\n\n".format(description)
+        action = "Keywords:"
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=instruction + action,
+            temperature=0.3, max_tokens=20, top_p=1, frequency_penalty=0.8, presence_penalty=0, stop=["\n"]
+        )
+        return ' '.join(response.choices[0].text.split())
+
+    def get_navbar_links(self, product_type):
+        print('Generating navbar links...')
+
+        instruction = "This is a generator of links for navigation bars on websites.\n"
+        example1 = "Description: A website for a SaaS product:\n- Features\n- Pricing\n- CTA: Register\n"
+        example2 = "Description: A website for a lawyer's firm:\n- Our services\n- Experience\n- CTA: Contact\n"
+        example3 = "Description: A website for a trainer:\n- Training\n- Clients\n- CTA: Book now!\n"
+        completion = "Description: A website for a {}:\n-".format(product_type)
+
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=instruction + SEPARATOR + '\n' + example1 + SEPARATOR + '\n' + example2 + SEPARATOR + '\n' + example3 + SEPARATOR + '\n' + completion,
+            temperature=0.7, max_tokens=10, top_p=1, frequency_penalty=0, presence_penalty=0, stop=[SEPARATOR]
+        )
+
+        result = list(map(lambda feature: ' '.join(feature.split()), re.split('- ', response.choices[0].text)))
+
+        if len(result) < 3:
+            print('Not enough links')
+            return self.get_navbar_links(product_type)
+
+        result[2] = result[2].replace('CTA: ', '')
+        return result
