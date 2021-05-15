@@ -1,8 +1,7 @@
-import flask
 from OpenAIController import OpenAIController
 from HTMLGenerator import HTMLGenerator
 from PexelsController import PexelsController
-from flask import Flask
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -16,13 +15,18 @@ sample_info = {
 }
 
 
+@app.route('/')
+def index():
+    return render_template("public/index.html")
+
+
 @app.route('/webhook', methods=['POST'])
 def hello():
     htmlGen = HTMLGenerator()
     openAI = OpenAIController()
     pexels = PexelsController()
 
-    form = flask.request.json['form_response']['answers']
+    form = request.json['form_response']['answers']
 
     info = {
         'description': list(filter(lambda field: field['field']['id'] == 'MXo1rWpND8vZ', form))[0]['text'],
