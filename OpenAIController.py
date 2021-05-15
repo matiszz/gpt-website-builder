@@ -174,8 +174,8 @@ class OpenAIController(object):
             if names_list[i] == " " or names_list[i] == "": names_list[i] = "James Milner"
         for i in range(len(roles_list)):
             if roles_list[i] == " " or roles_list[i] == "": roles_list[i] = " Developer"
-        for i in range(len(names_list)):
-            if names_list[i] == " " or names_list[i] == "": names_list[i] = "I loved using the product"
+        for i in range(len(testimonial_bio_list)):
+            if testimonial_bio_list[i] == " " or testimonial_bio_list[i] == "": testimonial_bio_list[i] = "I loved using the product"
 
         while len(names_list) < 3: names_list.append("Simon Tyler")
         while len(roles_list) < 3: roles_list.append("Customer")
