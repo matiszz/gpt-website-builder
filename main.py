@@ -16,6 +16,10 @@ sample_info = {
 }
 
 
+@app.route('/', methods=['GET'])
+def index():
+    return 'Hello World'
+
 @app.route('/webhook', methods=['POST'])
 def hello():
     htmlGen = HTMLGenerator()
