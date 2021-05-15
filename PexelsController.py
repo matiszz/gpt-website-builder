@@ -1,10 +1,11 @@
-import pprint
-
-from dotenv import dotenv_values
 from pexels_api import API
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
-PEXELS_API_KEY = dotenv_values(".env")['PEXELS_API_KEY']
-# Create API object
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+PEXELS_API_KEY = os.environ.get("PEXELS_API_KEY")
 api = API(PEXELS_API_KEY)
 
 

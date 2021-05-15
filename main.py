@@ -1,9 +1,8 @@
+import os
 from OpenAIController import OpenAIController
 from HTMLGenerator import HTMLGenerator
 from PexelsController import PexelsController
 from flask import Flask, render_template, request, abort
-
-import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
@@ -51,8 +50,6 @@ def hello():
         blocks = openAI.get_landing_blocks(info['product_type'])
 
         keywords = openAI.get_image_keywords(info['description'])
-        print('KEYWORDS')
-        print(keywords)
         info['photo1'] = pexels.search_photo(keywords, "large", 1)
         info['photo2'] = pexels.search_photo(keywords, "large", 2)
 
@@ -63,13 +60,12 @@ def hello():
         abort(403)
 
 
-
 if __name__ == '__main__':
     app.run()
 
     # openAI = OpenAIController()
-    #htmlGen = HTMLGenerator()
-    #pexels = PexelsController()
+    # htmlGen = HTMLGenerator()
+    # pexels = PexelsController()
 
     # blocks = openAI.get_landing_blocks(sample_info['product_type'])
     # print(blocks)
