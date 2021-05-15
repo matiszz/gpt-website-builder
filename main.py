@@ -50,10 +50,10 @@ def hello():
     return '200'
 
 
-if __name__ == '__main__':
-    htmlGen = HTMLGenerator()
-    openAI = OpenAIController()
-    pexels = PexelsController()
+#if __name__ == '__main__':
+    #htmlGen = HTMLGenerator()
+    #openAI = OpenAIController()
+    #pexels = PexelsController()
 
     # blocks = openAI.get_landing_blocks(sample_info['product_type'])
 
