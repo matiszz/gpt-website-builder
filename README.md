@@ -77,7 +77,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Joffre Alcivar - 🐤 [@jaroffrear](https://twitter.com/jaroffrear) · 📧 XXX · 💻 [XX](https://XX.com)
 
-Mohamed Benali - 🐤 [@XX](https://twitter.com/XX) · 📧 XXX · 💻 [XX](https://XX.com)
+Mohamed Benali - 🐤 [@Lair1998](https://twitter.com/Lair1998) · 📧 mbenalifib@gmail.com · 💻 [XX](https://XX.com)
 
 Matias Szarfer - 🐤 [@matiasszarfer](https://twitter.com/matiasszarfer) · 📧 matias@szarfer.com · 💻 [matiasszarfer.com](https://matiasszarfer.com)
 
