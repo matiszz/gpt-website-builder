@@ -69,6 +69,41 @@ class OpenAIController(object):
         print(response.choices[0].text)
 
     @staticmethod
+    def get_pricing_features(description):
+        print('Generating pricing...')
+
+        instruction = "This is a company:"
+        action = "I wrote 3 features for these plans: START, PRO and BUSINESS:"
+        prompt = instruction + '\n' + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + '\n\n'
+        response_start = openai.Completion.create(
+            engine="davinci",
+            prompt=prompt + 'START\n1.',
+            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+        )
+        response_pro = openai.Completion.create(
+            engine="davinci",
+            prompt=prompt + 'PRO\n1.',
+            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+        )
+        response_business = openai.Completion.create(
+            engine="davinci",
+            prompt=prompt + 'BUSINESS\n1.',
+            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+        )
+
+        start_features = list(
+            map(lambda feature: ' '.join(feature.split()),
+                re.split('\d\.', response_start.choices[0].text)))
+        pro_features = list(
+            map(lambda feature: ' '.join(feature.split()),
+                re.split('\d\.', response_pro.choices[0].text)))
+        business_features = list(
+            map(lambda feature: ' '.join(feature.split()),
+                re.split('\d\.', response_business.choices[0].text)))
+
+        return {"start": start_features, "pro": pro_features, "business": business_features}
+
+    @staticmethod
     def get_landing_blocks(product_type):
         print('Generating blocks...')
 
@@ -118,37 +153,3 @@ class OpenAIController(object):
         result[2] = result[2].replace('CTA: ', '')
         print(result)
         return result
-
-    def get_pricing_features(self, description):
-        print('Generating pricing...')
-
-        instruction = "This is a company:"
-        action = "I wrote 3 features for these plans: START, PRO and BUSINESS:"
-        prompt = instruction + '\n' + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + '\n\n'
-        response_start = openai.Completion.create(
-            engine="davinci",
-            prompt=prompt + 'START\n1.',
-            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
-        )
-        response_pro = openai.Completion.create(
-            engine="davinci",
-            prompt=prompt + 'PRO\n1.',
-            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
-        )
-        response_business = openai.Completion.create(
-            engine="davinci",
-            prompt=prompt + 'BUSINESS\n1.',
-            temperature=0.8, max_tokens=30, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
-        )
-
-        start_features = list(
-            map(lambda feature: ' '.join(feature.split()),
-                re.split('\d\.', response_start.choices[0].text)))
-        pro_features = list(
-            map(lambda feature: ' '.join(feature.split()),
-                re.split('\d\.', response_pro.choices[0].text)))
-        business_features = list(
-            map(lambda feature: ' '.join(feature.split()),
-                re.split('\d\.', response_business.choices[0].text)))
-
-        return {"start": start_features, "pro": pro_features, "business": business_features}
