@@ -67,15 +67,17 @@ class OpenAIController(object):
     def get_sample_testimonial_bio(description):
         #instruction = "A review of the product:"
         #action = "This is user's product review experience:"
+        print()
         instruction = "A review of the product:"
-        action = "This is user's product review experience:"
+        action = "This is a list of three user's product review experience: \n1."
         response = openai.Completion.create(
             engine="davinci",
-            prompt=instruction + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + SEPARATOR,
-            temperature=0.5+0.3, max_tokens=60, top_p=1, frequency_penalty=0.1+0.3, presence_penalty=0.48+0.3, stop=[SEPARATOR]
+            prompt=instruction + '\n' + description + '\n' + SEPARATOR + '\n' + action,
+            temperature=0.5+0.1, max_tokens=60+30, top_p=1, frequency_penalty=0.1+0.1, presence_penalty=0.48+0.1, stop=[SEPARATOR]
         )
-        print(response.choices[0].text)
-        return response.choices[0].text
+        list_testimonial = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+        print(list_testimonial)
+        return list_testimonial
 
     @staticmethod
     def get_sample_testimonial_names():
@@ -107,6 +109,10 @@ class OpenAIController(object):
     def get_testimonial_features(self, description):
         namesList = OpenAIController.get_sample_testimonial_names()
         rolesList = OpenAIController.get_sample_testimonial_roles()
+        testimonial_bioList = OpenAIController.get_sample_testimonial_bio(description)
+
+
+
 
     @staticmethod
     def get_pricing_features(description):
