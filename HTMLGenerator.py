@@ -1,8 +1,8 @@
-import os.path
-import webbrowser
+# import os.path
+# import webbrowser
 from Populator import Populator
 
-FILE_NAME = 'generated/index.html'
+FILE_NAME = 'templates/generated/index.html'
 
 
 def get_populated_html_content(block_name, web_info):
@@ -11,7 +11,8 @@ def get_populated_html_content(block_name, web_info):
         populator = Populator()
 
         if block_name == 'contact':
-            return populator.populate_contact_html(block_file.read(), web_info['address'], web_info['email'], web_info['phone_number'])
+            return populator.populate_contact_html(block_file.read(), web_info['address'], web_info['email'],
+                                                   web_info['phone_number'])
         elif block_name == 'features':
             return populator.populate_features_html(block_file.read(), web_info)
         elif block_name == 'footer':
@@ -29,6 +30,7 @@ def get_populated_html_content(block_name, web_info):
     except IOError:
         print("{} does not exist as HTML".format(block_name))
         return ""
+
 
 class HTMLGenerator(object):
 
@@ -49,4 +51,4 @@ class HTMLGenerator(object):
         # Close file and open in browser
         result_file.write("</body>\n</html>")
         result_file.close()
-        webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
+        # webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)

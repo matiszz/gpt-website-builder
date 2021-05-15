@@ -27,6 +27,11 @@ def index():
     return render_template("public/index.html")
 
 
+@app.route('/result', methods=['GET'])
+def result():
+    return render_template("generated/index.html")
+
+
 @app.route('/webhook', methods=['POST'])
 def hello():
     htmlGen = HTMLGenerator()
