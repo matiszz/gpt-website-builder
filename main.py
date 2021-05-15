@@ -6,7 +6,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-infoo = {
+sample_info = {
     'description': "Velox is a real-time platform that helps remote teams keeping organized chats. In Velox, can create new conversations for different topics. It also allows you to create different domain levels and organize users in addresses. ",
     'product_type': "a SaaS product",
     'address': "C/ Jordi Girona, 21, Barcelona",
@@ -18,7 +18,10 @@ infoo = {
 
 @app.route('/webhook', methods=['POST'])
 def hello():
-    print('webhook received')
+    htmlGen = HTMLGenerator()
+    openAI = OpenAIController()
+    pexels = PexelsController()
+
     form = flask.request.json['form_response']['answers']
 
     info = {
@@ -30,7 +33,13 @@ def hello():
         'web_name': list(filter(lambda field: field['field']['id'] == 'cBdcNK94ys9R', form))[0]['text']
     }
 
-    print(info)
+    blocks = openAI.get_landing_blocks(info['product_type'])
+
+    keywords = openAI.get_image_keywords(info['description'])
+    info['photo1'] = pexels.search_photo(keywords, "large", 1)
+    info['photo2'] = pexels.search_photo(keywords, "large", 2)
+
+    htmlGen.create_result_file(blocks, info)
 
     return 'Hello, World!'
 
@@ -40,10 +49,10 @@ if __name__ == '__main__':
     openAI = OpenAIController()
     pexels = PexelsController()
 
-    blocks = openAI.get_landing_blocks(infoo['product_type'])
+    blocks = openAI.get_landing_blocks(sample_info['product_type'])
 
-    keywords = openAI.get_image_keywords(infoo['description'])
-    infoo['photo1'] = pexels.search_photo(keywords, "large", 1)
-    infoo['photo2'] = pexels.search_photo(keywords, "large", 2)
+    keywords = openAI.get_image_keywords(sample_info['description'])
+    sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
+    sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
 
-    htmlGen.create_result_file(blocks, infoo)
+    htmlGen.create_result_file(blocks, sample_info)
