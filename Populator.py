@@ -37,7 +37,17 @@ class Populator(object):
 
     def populate_testimonial_html(self, content, web_info):
         features = self.openAI.get_testimonial_features(web_info)
-        return content
+        return content.format(
+            testimonial_1=features['testimonials'][0],
+            testimonial_2=features['testimonials'][1],
+            testimonial_3=features['testimonials'][2],
+            name_1=features['names'][0],
+            name_2=features['names'][1],
+            name_3=features['names'][2],
+            role_1=features['roles'][0],
+            role_2=features['roles'][1],
+            role_3=features['roles'][2],
+        )
 
     def populate_pricing_html(self, content, description, web_name):
         features = self.openAI.get_pricing_features(description)

@@ -19,12 +19,12 @@ if __name__ == '__main__':
     htmlGen = HTMLGenerator()
     openAI = OpenAIController()
 
-    #blocks = openAI.get_landing_blocks(info['product_type'])
+    blocks = openAI.get_landing_blocks(info['product_type'])
     #print(blocks)
 
-    #htmlGen.create_result_file(blocks, info)
+    htmlGen.create_result_file(blocks, info)
 
-    openAI.get_sample_testimonial_bio(sample_description)
+    #openAI.get_sample_testimonial_bio(sample_description)
     print("---")
     #openAI.get_sample_testimonial_names()
     print("---")

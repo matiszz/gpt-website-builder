@@ -111,6 +111,11 @@ class OpenAIController(object):
         rolesList = OpenAIController.get_sample_testimonial_roles()
         testimonial_bioList = OpenAIController.get_sample_testimonial_bio(description)
 
+        while (len(namesList) < 3): namesList.append("Simon Tyler")
+        while (len(rolesList) < 3): rolesList.append("Customer")
+        while (len(testimonial_bioList) < 3): testimonial_bioList.append("This product is amazing")
+        return {"names": namesList, "roles": rolesList, "testimonials": testimonial_bioList}
+
 
 
 
