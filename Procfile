@@ -1,1 +1,1 @@
-web: gunicorn HackUPC.wsgi
+web: gunicorn app:app
