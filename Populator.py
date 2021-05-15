@@ -23,7 +23,7 @@ class Populator(object):
 
     @staticmethod
     def populate_contact_html(content, address, email, phone_number):
-        return content.format(address=address, email=email, phone_number=phone_number)
+        return content.format(address=address, email=email, phone_number=phone_number, company_location=address.replace(" ", "+"))
 
     def populate_features_html(self, content, web_info):
         features_1 = self.openAI.get_feature(web_info)
