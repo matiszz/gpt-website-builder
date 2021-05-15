@@ -26,9 +26,9 @@ class Populator(object):
         return content.format(address=address, email=email, phone_number=phone_number)
 
     def populate_features_html(self, content, web_info):
-        features_1 = self.openAI.get_feature(web_info['description'])
-        features_2 = self.openAI.get_feature(web_info['description'])
-        features_3 = self.openAI.get_feature(web_info['description'])
+        features_1 = self.openAI.get_feature(web_info)
+        features_2 = self.openAI.get_feature(web_info)
+        features_3 = self.openAI.get_feature(web_info)
 
         return content.format(
             web_name=web_info['web_name'],

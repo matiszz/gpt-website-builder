@@ -170,6 +170,7 @@ class OpenAIController(object):
         )
         # feature[1] is the description
         feature[1] = response_feature.choices[0].text
+        print(' -- Result Feature: {}'.format(response_feature.choices[0].text))
 
         instruction = "Text: {}\n\n".format(description)
         action = "Keywords:"
@@ -178,6 +179,8 @@ class OpenAIController(object):
             prompt=instruction + action,
             temperature=0.7, max_tokens=3, top_p=1, frequency_penalty=0.8, presence_penalty=0, stop=["\n"]
         )
+        print(' -- Result Feature Keyword: {}'.format(response_keyword_feature.choices[0].text))
+
         # feature[0] is the name, keyword of the description
         feature[0] = response_keyword_feature.choices[0].text.strip().capitalize().split(',')[0]
         return feature
