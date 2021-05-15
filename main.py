@@ -12,6 +12,10 @@ info = {
     'phone_number': '+34672900943',
     'web_name': "Velox"
 }
+sample_description = "Velox is a real-time platform that helps remote teams keeping organized chats. In Velox, " \
+                     "you can create new conversations for different topics. "
+
+
 
 if __name__ == '__main__':
     htmlGen = HTMLGenerator()
@@ -19,9 +23,17 @@ if __name__ == '__main__':
     pexels = PexelsController()
 
     blocks = openAI.get_landing_blocks(info['product_type'])
+    print(blocks)
 
     keywords = openAI.get_image_keywords(info['description'])
     info['photo1'] = pexels.search_photo(keywords, "large", 1)
     info['photo2'] = pexels.search_photo(keywords, "large", 2)
 
     htmlGen.create_result_file(blocks, info)
+
+    #openAI.get_sample_testimonial_bio(sample_description)
+    print("---")
+    #openAI.get_sample_testimonial_names()
+    print("---")
+    #openAI.get_sample_testimonial_roles()
+
