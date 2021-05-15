@@ -35,8 +35,8 @@ class Populator(object):
     def populate_navbar_html(content):
         return content
 
-    @staticmethod
-    def populate_testimonial_html(content):
+    def populate_testimonial_html(self, content, web_info):
+        features = self.openAI.get_testimonial_features(web_info)
         return content
 
     def populate_pricing_html(self, content, description, web_name):

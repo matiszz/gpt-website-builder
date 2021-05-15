@@ -65,62 +65,48 @@ class OpenAIController(object):
 
     @staticmethod
     def get_sample_testimonial_bio(description):
-        instruction = "A good description of the product:"
-        action = "This is product's user experience:"
+        #instruction = "A review of the product:"
+        #action = "This is user's product review experience:"
+        instruction = "A review of the product:"
+        action = "This is user's product review experience:"
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + SEPARATOR,
-            temperature=0.5+0.3,
-            max_tokens=60,
-            top_p=1,
-            frequency_penalty=0.1+0.3,
-            presence_penalty=0.48+0.3,
-            stop=[SEPARATOR]
+            temperature=0.5+0.3, max_tokens=60, top_p=1, frequency_penalty=0.1+0.3, presence_penalty=0.48+0.3, stop=[SEPARATOR]
         )
         print(response.choices[0].text)
         return response.choices[0].text
 
     @staticmethod
-    def get_sample_testimonial_name(sample_testimonial_names):
-        description = OpenAIController.list2string(sample_testimonial_names)
-        #print(description)
-        instruction = "This is a name:"
-        #print(instruction)
-        action = "This is a name:"
+    def get_sample_testimonial_names():
+        instruction = "This are three names:\n1. Martha Taylor\n2. Lucy Williams\n3. John Smith\n"
+        action = "This is a list of three new names: \n1."
         response = openai.Completion.create(
             engine="davinci",
-            prompt=instruction + SEPARATOR + description + '\n' + SEPARATOR + '\n' + action + SEPARATOR,
-            temperature=0.5 + 0.4,
-            max_tokens=60,
-            top_p=1,
-            frequency_penalty=0.1+0.4,
-            presence_penalty=0.48+0.4,
-            stop=[SEPARATOR]
+            prompt=instruction + SEPARATOR + "\n" + action,
+            temperature=0.5 + 0.4, max_tokens=15, top_p=1, frequency_penalty=0.1+0.6, presence_penalty=0.48+0.4, stop=[SEPARATOR]
         )
-        print(response.choices[0].text)
-        return response.choices[0].text
-
-
+        namesList = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+        print(namesList)
+        return namesList
 
     @staticmethod
-    def get_sample_testimonial_role(sample_testimonial_names):
-        description = OpenAIController.list2string(sample_testimonial_names)
-        #print(description)
-        instruction = "This is a role:"
-        #print(instruction)
-        action = "This is a role:"
+    def get_sample_testimonial_roles():
+        instruction = "This are three roles:\n1. Product Designer\n2. UI Develeoper\n3. CIO\n"
+        action = "This is a list of only three roles: \n1."
         response = openai.Completion.create(
             engine="davinci",
-            prompt=instruction + SEPARATOR + description + '\n' + SEPARATOR + '\n' + action + SEPARATOR,
-            temperature=0.5 + 0.4,
-            max_tokens=60,
-            top_p=1,
-            frequency_penalty=0.1+0.4,
-            presence_penalty=0.48+0.4,
-            stop=[SEPARATOR]
+            prompt=instruction + SEPARATOR + '\n' + action,
+            temperature=0.5 + 0.4, max_tokens=20, top_p=1, frequency_penalty=0.1+0.4, presence_penalty=0.48+0.4, stop=[SEPARATOR]
         )
-        print(response.choices[0].text)
-        return response.choices[0].text
+        text = str(response.choices[0].text).split('"""')[0]
+        rolesList = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', text)))
+        print(rolesList)
+        return rolesList
+
+    def get_testimonial_features(self, description):
+        namesList = OpenAIController.get_sample_testimonial_names()
+        rolesList = OpenAIController.get_sample_testimonial_roles()
 
     @staticmethod
     def get_pricing_features(description):
