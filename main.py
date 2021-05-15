@@ -43,6 +43,8 @@ def hello():
     provided_key = list(filter(lambda field: field['field']['id'] == 'ZKyWAMzdVY9h', form))[0]['text']
 
     if provided_key == MAGIC_KEY:
+        htmlGen.create_loading_file()
+
         info = {
             'description': list(filter(lambda field: field['field']['id'] == 'MXo1rWpND8vZ', form))[0]['text'],
             'product_type': list(filter(lambda field: field['field']['id'] == 'cPauKwCscbCk', form))[0]['text'],
@@ -66,16 +68,17 @@ def hello():
 
 
 if __name__ == '__main__':
-    # app.run()
+    app.run()
 
-    openAI = OpenAIController()
-    htmlGen = HTMLGenerator()
-    pexels = PexelsController()
+    # openAI = OpenAIController()
+    # htmlGen = HTMLGenerator()
+    # pexels = PexelsController()
+    # htmlGen.create_loading_file()
 
     # blocks = openAI.get_landing_blocks(sample_info['product_type'])
     # print(blocks)
-    keywords = openAI.get_image_keywords(sample_info['description'])
-    sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
-    sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
+    # keywords = openAI.get_image_keywords(sample_info['description'])
+    # sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
+    # sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
 
-    htmlGen.create_result_file(['features'], sample_info)
+    # htmlGen.create_result_file(['features'], sample_info)
