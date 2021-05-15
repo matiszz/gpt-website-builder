@@ -12,17 +12,6 @@ class OpenAIController(object):
     def __init__(self):
         print("OpenAI Controller created")
 
-    ### HELPERS ###
-    @staticmethod
-    def list2string(list_of_strings):
-        result = ""
-        for name in list_of_strings:
-            result = result + name + "\n" + SEPARATOR + "\n"
-        return result
-
-    ### METHODS ###
-
-
     @staticmethod
     def get_tagline(description):
         print('Generating tagline...')
@@ -65,17 +54,17 @@ class OpenAIController(object):
 
     @staticmethod
     def get_sample_testimonial_bio(description):
-        #instruction = "A review of the product:"
-        #action = "This is user's product review experience:"
         print()
         instruction = "A review of the product:"
         action = "This is a list of three user's product review experience: \n1."
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + '\n' + description + '\n' + SEPARATOR + '\n' + action,
-            temperature=0.5+0.1, max_tokens=60+30, top_p=1, frequency_penalty=0.1+0.1, presence_penalty=0.48+0.1, stop=[SEPARATOR]
+            temperature=0.5 + 0.1, max_tokens=60 + 30, top_p=1, frequency_penalty=0.1 + 0.1,
+            presence_penalty=0.48 + 0.1, stop=[SEPARATOR]
         )
-        list_testimonial = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+        list_testimonial = list(
+            map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
         print(list_testimonial)
         return list_testimonial
 
@@ -86,11 +75,12 @@ class OpenAIController(object):
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + "\n" + action,
-            temperature=0.5 + 0.4, max_tokens=15, top_p=1, frequency_penalty=0.1+0.6, presence_penalty=0.48+0.4, stop=[SEPARATOR]
+            temperature=0.5 + 0.4, max_tokens=15, top_p=1, frequency_penalty=0.1 + 0.6, presence_penalty=0.48 + 0.4,
+            stop=[SEPARATOR]
         )
-        namesList = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
-        print(namesList)
-        return namesList
+        names_list = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+        print(names_list)
+        return names_list
 
     @staticmethod
     def get_sample_testimonial_roles():
@@ -99,25 +89,24 @@ class OpenAIController(object):
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + action,
-            temperature=0.5 + 0.4, max_tokens=20, top_p=1, frequency_penalty=0.1+0.4, presence_penalty=0.48+0.4, stop=[SEPARATOR]
+            temperature=0.5 + 0.4, max_tokens=20, top_p=1, frequency_penalty=0.1 + 0.4, presence_penalty=0.48 + 0.4,
+            stop=[SEPARATOR]
         )
         text = str(response.choices[0].text).split('"""')[0]
-        rolesList = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', text)))
-        print(rolesList)
-        return rolesList
+        roles_list = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', text)))
+        print(roles_list)
+        return roles_list
 
     def get_testimonial_features(self, description):
-        namesList = OpenAIController.get_sample_testimonial_names()
-        rolesList = OpenAIController.get_sample_testimonial_roles()
-        testimonial_bioList = OpenAIController.get_sample_testimonial_bio(description)
+        names_list = OpenAIController.get_sample_testimonial_names()
+        roles_list = OpenAIController.get_sample_testimonial_roles()
+        testimonial_bio_list = OpenAIController.get_sample_testimonial_bio(description)
 
-        while (len(namesList) < 3): namesList.append("Simon Tyler")
-        while (len(rolesList) < 3): rolesList.append("Customer")
-        while (len(testimonial_bioList) < 3): testimonial_bioList.append("This product is amazing")
-        return {"names": namesList, "roles": rolesList, "testimonials": testimonial_bioList}
+        while len(names_list) < 3: names_list.append("Simon Tyler")
+        while len(roles_list) < 3: roles_list.append("Customer")
+        while len(testimonial_bio_list) < 3: testimonial_bio_list.append("This product is amazing")
 
-
-
+        return {"names": names_list, "roles": roles_list, "testimonials": testimonial_bio_list}
 
     @staticmethod
     def get_pricing_features(description):
