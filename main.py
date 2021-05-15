@@ -67,12 +67,12 @@ def hello():
 if __name__ == '__main__':
     app.run()
 
+    # openAI = OpenAIController()
     #htmlGen = HTMLGenerator()
-    #openAI = OpenAIController()
     #pexels = PexelsController()
 
-    blocks = openAI.get_landing_blocks(sample_info['product_type'])
-    print(blocks)
+    # blocks = openAI.get_landing_blocks(sample_info['product_type'])
+    # print(blocks)
     # keywords = openAI.get_image_keywords(sample_info['description'])
     # sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
     # sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
