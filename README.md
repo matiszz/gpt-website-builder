@@ -75,7 +75,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## 📞 Contact
 
-Joffre Alcivar - 🐤 [@jaroffrear](https://twitter.com/jaroffrear) · 📧 XXX · 💻 [XX](https://XX.com)
+Joffre Alcivar - 🐤 [@jaroffrear](https://twitter.com/jaroffrear) · 📧 jaroffrear@gmail.com ·
 
 Mohamed Benali - 🐤 [@Lair1998](https://twitter.com/Lair1998) · 📧 mbenalifib@gmail.com
 
