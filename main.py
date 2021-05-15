@@ -10,9 +10,9 @@ if __name__ == '__main__':
 
     openAI = OpenAIController()
     # tagline = openAI.get_tagline(sample_description)
+    # description = openAI.get_description(sample_description)
+    # openAI.get_sample_testimonial_bio(sample_description)
+    pricing = openAI.get_pricing_features(sample_description)
 
-    description = openAI.get_description(sample_description)
-    openAI.get_sample_testimonial_bio(sample_description)
-
-    print("description: {}".format(description))
+    print("pricing: {}".format(pricing))
 
