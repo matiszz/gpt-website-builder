@@ -15,8 +15,6 @@ if __name__ == '__main__':
     htmlGen = HTMLGenerator()
     openAI = OpenAIController()
 
-    # blocks = openAI.get_landing_blocks(sample_product_type)
-
-    blocks = ['navbar', 'features', 'hero', 'pricing', 'contact']
+    blocks = openAI.get_landing_blocks(info['product_type'])
 
     htmlGen.create_result_file(blocks, info)
