@@ -1,8 +1,15 @@
-import flask
 from OpenAIController import OpenAIController
 from HTMLGenerator import HTMLGenerator
 from PexelsController import PexelsController
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
+
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+MAGIC_KEY = os.environ.get("MAGIC_KEY")
 
 app = Flask(__name__)
 
@@ -29,38 +36,43 @@ def hello():
 
     form = request.json['form_response']['answers']
 
-    info = {
-        'description': list(filter(lambda field: field['field']['id'] == 'MXo1rWpND8vZ', form))[0]['text'],
-        'product_type': list(filter(lambda field: field['field']['id'] == 'cPauKwCscbCk', form))[0]['text'],
-        'address': list(filter(lambda field: field['field']['id'] == 'R4aBPISAiiTO', form))[0]['text'],
-        'email': list(filter(lambda field: field['field']['id'] == 'lTFrpytOV3f5', form))[0]['email'],
-        'phone_number': list(filter(lambda field: field['field']['id'] == 'OtMQqEttgCq9', form))[0]['phone_number'],
-        'web_name': list(filter(lambda field: field['field']['id'] == 'cBdcNK94ys9R', form))[0]['text']
-    }
+    provided_key = list(filter(lambda field: field['field']['id'] == 'ZKyWAMzdVY9h', form))[0]['text']
 
-    blocks = openAI.get_landing_blocks(info['product_type'])
+    if provided_key == MAGIC_KEY:
+        info = {
+            'description': list(filter(lambda field: field['field']['id'] == 'MXo1rWpND8vZ', form))[0]['text'],
+            'product_type': list(filter(lambda field: field['field']['id'] == 'cPauKwCscbCk', form))[0]['text'],
+            'address': list(filter(lambda field: field['field']['id'] == 'R4aBPISAiiTO', form))[0]['text'],
+            'email': list(filter(lambda field: field['field']['id'] == 'lTFrpytOV3f5', form))[0]['email'],
+            'phone_number': list(filter(lambda field: field['field']['id'] == 'OtMQqEttgCq9', form))[0]['phone_number'],
+            'web_name': list(filter(lambda field: field['field']['id'] == 'cBdcNK94ys9R', form))[0]['text']
+        }
 
-    keywords = openAI.get_image_keywords(info['description'])
-    print('KEYWORDS')
-    print(keywords)
-    info['photo1'] = pexels.search_photo(keywords, "large", 1)
-    info['photo2'] = pexels.search_photo(keywords, "large", 2)
+        blocks = openAI.get_landing_blocks(info['product_type'])
 
-    htmlGen.create_result_file(blocks, info)
+        keywords = openAI.get_image_keywords(info['description'])
+        print('KEYWORDS')
+        print(keywords)
+        info['photo1'] = pexels.search_photo(keywords, "large", 1)
+        info['photo2'] = pexels.search_photo(keywords, "large", 2)
 
-    return '200'
+        htmlGen.create_result_file(blocks, info)
+
+        return '200'
+    else:
+        abort(403)
 
 
 
 if __name__ == '__main__':
     app.run()
 
+    # openAI = OpenAIController()
     #htmlGen = HTMLGenerator()
-    #openAI = OpenAIController()
     #pexels = PexelsController()
 
     # blocks = openAI.get_landing_blocks(sample_info['product_type'])
-
+    # print(blocks)
     # keywords = openAI.get_image_keywords(sample_info['description'])
     # sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
     # sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
