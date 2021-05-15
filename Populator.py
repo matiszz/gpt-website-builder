@@ -1,6 +1,20 @@
 from OpenAIController import OpenAIController
 
 
+def get_pricing_feature(text):
+    html = """
+    <p class="flex items-center text-gray-600 mb-2">
+      <span class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+             class="w-3 h-3" viewBox="0 0 24 24">
+          <path d="M20 6L9 17l-5-5"></path>
+        </svg>
+      </span>{feature}
+    </p>
+    """
+    return html.format(feature=text)
+
+
 class Populator(object):
     openAI = OpenAIController()
 
@@ -31,9 +45,9 @@ class Populator(object):
 
         return content.format(tagline=tagline, copy=copy, image_src=image_src)
 
-    @staticmethod
-    def populate_navbar_html(content):
-        return content
+    def populate_navbar_html(self, content, web_name, description):
+        links = self.openAI.get_copy(description)
+        return content.format(web_name=web_name, link_1=links[0], link_2=links[1], link_3_cta=links[2])
 
     @staticmethod
     def populate_testimonial_html(content):
@@ -41,15 +55,20 @@ class Populator(object):
 
     def populate_pricing_html(self, content, description, web_name):
         features = self.openAI.get_pricing_features(description)
+        features_start = ""
+        features_pro = ""
+        features_business = ""
+
+        for feature in features['start']:
+            features_start += get_pricing_feature(feature)
+        for feature in features['pro']:
+            features_pro += get_pricing_feature(feature)
+        for feature in features['business']:
+            features_business += get_pricing_feature(feature)
+
         return content.format(
             web_name=web_name,
-            feature_1_p1=features['start'][0],
-            feature_2_p1=features['start'][1],
-            feature_3_p1=features['start'][2],
-            feature_1_p2=features['pro'][0],
-            feature_2_p2=features['pro'][1],
-            feature_3_p2=features['pro'][2],
-            feature_1_p3=features['business'][0],
-            feature_2_p3=features['business'][1],
-            feature_3_p3=features['business'][2],
+            features_start=features_start,
+            features_pro=features_pro,
+            features_business=features_business
         )
