@@ -22,7 +22,7 @@ def get_populated_html_content(block_name, web_info):
     elif block_name == 'navbar':
         return populator.populate_navbar_html(block_file.read())
     elif block_name == 'pricing':
-        return populator.populate_pricing_html(block_file.read())
+        return populator.populate_pricing_html(block_file.read(), web_info['description'], web_info['web_name'])
     elif block_name == 'testimonial':
         return populator.populate_testimonial_html(block_file.read())
 

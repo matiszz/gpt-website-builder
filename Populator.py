@@ -39,6 +39,17 @@ class Populator(object):
     def populate_testimonial_html(content):
         return content
 
-    @staticmethod
-    def populate_pricing_html(content):
-        return content
+    def populate_pricing_html(self, content, description, web_name):
+        features = self.openAI.get_pricing_features(description)
+        return content.format(
+            web_name=web_name,
+            feature_1_p1=features['start'][0],
+            feature_2_p1=features['start'][1],
+            feature_3_p1=features['start'][2],
+            feature_1_p2=features['pro'][0],
+            feature_2_p2=features['pro'][1],
+            feature_3_p2=features['pro'][2],
+            feature_1_p3=features['business'][0],
+            feature_2_p3=features['business'][1],
+            feature_3_p3=features['business'][2],
+        )
