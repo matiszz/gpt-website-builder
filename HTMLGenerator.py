@@ -12,7 +12,7 @@ def get_populated_html_content(block_name, web_info):
     if block_name == 'contact':
         return populator.populate_contact_html(block_file.read(), web_info['address'], web_info['email'], web_info['phone_number'])
     elif block_name == 'features':
-        return populator.populate_features_html(block_file.read())
+        return populator.populate_features_html(block_file.read(), web_info)
     elif block_name == 'footer':
         return populator.populate_footer_html(block_file.read(), web_info['web_name'])
     elif block_name == 'head':
