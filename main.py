@@ -1,13 +1,18 @@
 from OpenAIController import OpenAIController
 
 sample_description = "Velox is a real-time platform that helps remote teams keeping organized chats. In Velox, " \
-                     "you can create new conversations for different topics. "
+                     "can create new conversations for different topics. It also allows you to create different " \
+                     "domain levels and organize users in addresses. "
 
 
 if __name__ == '__main__':
     # execute only if run as the entry point into the program
 
     openAI = OpenAIController()
-    #openAI.get_tagline(sample_description)
+    # tagline = openAI.get_tagline(sample_description)
 
+    description = openAI.get_description(sample_description)
     openAI.get_sample_testimonial_bio(sample_description)
+
+    print("description: {}".format(description))
+
