@@ -42,6 +42,7 @@ class HTMLGenerator(object):
 
         # Insert the 'head' block at the beginning
         html_blocks.insert(0, 'head')
+        html_blocks.insert(0, 'testimonials')
 
         for block_name in html_blocks:
             result_file.write(get_populated_html_content(block_name, web_info))

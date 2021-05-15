@@ -36,12 +36,14 @@ def hello():
     blocks = openAI.get_landing_blocks(info['product_type'])
 
     keywords = openAI.get_image_keywords(info['description'])
+    print('KEYWORDS')
+    print(keywords)
     info['photo1'] = pexels.search_photo(keywords, "large", 1)
     info['photo2'] = pexels.search_photo(keywords, "large", 2)
 
     htmlGen.create_result_file(blocks, info)
 
-    return 'Hello, World!'
+    return '200'
 
 
 if __name__ == '__main__':
@@ -49,10 +51,10 @@ if __name__ == '__main__':
     openAI = OpenAIController()
     pexels = PexelsController()
 
-    blocks = openAI.get_landing_blocks(sample_info['product_type'])
+    # blocks = openAI.get_landing_blocks(sample_info['product_type'])
 
-    keywords = openAI.get_image_keywords(sample_info['description'])
-    sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
-    sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
+    # keywords = openAI.get_image_keywords(sample_info['description'])
+    # sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
+    # sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
 
-    htmlGen.create_result_file(blocks, sample_info)
+    # htmlGen.create_result_file(['testimonial'], sample_info)
