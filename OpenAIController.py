@@ -14,6 +14,7 @@ class OpenAIController(object):
 
     @staticmethod
     def get_tagline(description):
+        print('Generating tagline...')
         instruction = "This is a tagline generator for companies."
         example1 = "Company description: Pitch is uncompromisingly good presentation software, enabling modern teams " \
                    "to craft and distribute beautiful presentations more effectively." \
@@ -35,7 +36,8 @@ class OpenAIController(object):
         return response.choices[0].text
 
     @staticmethod
-    def get_description(description):
+    def get_copy(description):
+        print('Generating copy...')
         instruction = "Someone told me about their company:"
         action = "I rephrased it to make it more catchy for a marketing copy:"
         response = openai.Completion.create(
@@ -68,6 +70,7 @@ class OpenAIController(object):
 
     @staticmethod
     def get_pricing_features(description):
+        print('Generating pricing...')
         instruction = "This is a company:"
         action = "I wrote 3 features for these plans: START, PRO and BUSINESS:"
         prompt = instruction + '\n'+SEPARATOR+'\n' + description + '\n'+SEPARATOR+'\n' + action + '\n\n'
@@ -95,6 +98,8 @@ class OpenAIController(object):
 
     @staticmethod
     def get_landing_blocks(product_type):
+        print('Generating blocks...')
+
         instruction = "This is a generator of websites with blocks. The available blocks are contact, features, footer, hero, navbar, pricing, and testimonial.\n"
         example1 = "Description: Landing page for a SaaS product:\n- navbar\n- hero\n- features\n- testimonial\n- pricing\n"
         example2 = "Description: Landing page for a lawyer's firm:\n- hero\n- testimonial\n- contact\n- footer\n"

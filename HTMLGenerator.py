@@ -14,11 +14,11 @@ def get_populated_html_content(block_name, web_info):
     elif block_name == 'features':
         return populator.populate_features_html(block_file.read())
     elif block_name == 'footer':
-        return populator.populate_footer_html(block_file.read())
+        return populator.populate_footer_html(block_file.read(), web_info['web_name'])
     elif block_name == 'head':
-        return populator.populate_head_html(block_file.read())
+        return populator.populate_head_html(block_file.read(), web_info['web_name'])
     elif block_name == 'hero':
-        return populator.populate_hero_html(block_file.read())
+        return populator.populate_hero_html(block_file.read(), web_info['description'])
     elif block_name == 'navbar':
         return populator.populate_navbar_html(block_file.read())
     elif block_name == 'pricing':
