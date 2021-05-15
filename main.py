@@ -1,3 +1,4 @@
+import flask
 from OpenAIController import OpenAIController
 from HTMLGenerator import HTMLGenerator
 from PexelsController import PexelsController
@@ -15,7 +16,7 @@ sample_info = {
 }
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     return render_template("public/index.html")
 

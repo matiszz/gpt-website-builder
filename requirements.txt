@@ -2,3 +2,5 @@ openai
 python-dotenv
 pexels_api
 flask
+gunicorn
+python-decouple
