@@ -8,9 +8,8 @@ sample_description = "Velox is a real-time platform that helps remote teams keep
 if __name__ == '__main__':
     # execute only if run as the entry point into the program
 
-    #openAI = OpenAIController()
-    #openAI.get_tagline(sample_description)
+    openAI = OpenAIController()
+    openAI.get_tagline(sample_description)
 
-    #openAI.get_sample_testimonial_bio(sample_description)
-    pexels = PexelsController()
-    photo = pexels.search_photo("barcelona", "medium")
+    openAI.get_sample_testimonial_bio(sample_description)
+

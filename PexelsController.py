@@ -8,6 +8,11 @@ PEXELS_API_KEY = dotenv_values(".env")['PEXELS_API_KEY']
 api = API(PEXELS_API_KEY)
 
 
+## CALL FROM main.py
+# pexels = PexelsController()
+# second attribute for the size, first one for keyword
+# photo = pexels.search_photo("barcelona", "medium")
+
 class PexelsController(object):
     def __init__(self):
         print("Pexels Controller created")
