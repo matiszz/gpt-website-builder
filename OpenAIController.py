@@ -150,10 +150,38 @@ class OpenAIController(object):
             prompt=instruction + SEPARATOR + '\n' + example1 + SEPARATOR + '\n' + example2 + SEPARATOR + '\n' + completion,
             temperature=0.7, max_tokens=30, top_p=1, frequency_penalty=0, presence_penalty=0, stop=[SEPARATOR]
         )
-
         print(' -- Result landing blocks: {}'.format(response))
         return list(map(lambda feature: ' '.join(feature.split()).lower(), re.split('- ', response.choices[0].text)))
 
+    @staticmethod
+    def get_feature(info):
+        print('Generating features...')
+        feature = [None, None]
+        description = info['description']
+        example_1_description = "Fill a simple form in less than two minutes. Tell us about your company as if you were explaining it to your friend."
+        example_2_description = "Just click send. Give us a few seconds. Our OpenAI and GPT-3 powered engine will create the best <b>unique</b> website for your product. It's gonna be amazing."
+        instruction = "This is a " + info['product_type'] + " feature example:\n"
+        action = "Write a feature description for a " + info['product_type'] + ":"
+        prompt = instruction + '\n' + description + '\n' + example_1_description + '\n' + SEPARATOR + '\n' + example_2_description + '\n' + SEPARATOR + '\n' + action
+        response_feature = openai.Completion.create(
+            engine="davinci",
+            prompt=prompt + '\n',
+            temperature=0.85, max_tokens=69, top_p=1, frequency_penalty=0.2, presence_penalty=0.3, stop=[SEPARATOR]
+        )
+        # feature[1] is the description
+        feature[1] = response_feature.choices[0].text
+
+        instruction = "Text: {}\n\n".format(description)
+        action = "Keywords:"
+        response_keyword_feature = openai.Completion.create(
+            engine="davinci",
+            prompt=instruction + action,
+            temperature=0.7, max_tokens=3, top_p=1, frequency_penalty=0.8, presence_penalty=0, stop=["\n"]
+        )
+        # feature[0] is the name, keyword of the description
+        feature[0] = response_keyword_feature.choices[0].text.strip().capitalize().split(',')[0]
+        return feature
+      
     @staticmethod
     def get_image_keywords(description):
         print('Generating keywords...')

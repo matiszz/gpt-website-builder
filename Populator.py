@@ -25,9 +25,20 @@ class Populator(object):
     def populate_contact_html(content, address, email, phone_number):
         return content.format(address=address, email=email, phone_number=phone_number)
 
-    @staticmethod
-    def populate_features_html(content):
-        return content
+    def populate_features_html(self, content, description, web_info):
+        features_1 = self.openAI.get_feature(description)
+        features_2 = self.openAI.get_feature(description)
+        features_3 = self.openAI.get_feature(description)
+        return content.format(
+            web_name=web_info['web_name'],
+            feature_1_name=features_1[0],
+            feature_1_description=features_1[1],
+            feature_2_name=features_2[0],
+            feature_2_description=features_2[1],
+            feature_3_name=features_3[0],
+            feature_3_description=features_3[1],
+            image_src_features=web_info['photo2']
+        )
 
     @staticmethod
     def populate_footer_html(content, web_name):
