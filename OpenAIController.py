@@ -53,6 +53,7 @@ class OpenAIController(object):
             stop=[SEPARATOR]
         )
         print(response.choices[0].text)
+        return response.choices[0].text
 
     @staticmethod
     def get_sample_testimonial_name(sample_testimonial_names):
@@ -72,6 +73,7 @@ class OpenAIController(object):
             stop=[SEPARATOR]
         )
         print(response.choices[0].text)
+        return response.choices[0].text
 
 
 
@@ -93,4 +95,5 @@ class OpenAIController(object):
             stop=[SEPARATOR]
         )
         print(response.choices[0].text)
+        return response.choices[0].text
 
