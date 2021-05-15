@@ -55,8 +55,9 @@ class OpenAIController(object):
             prompt=instruction + '\n' + description + '\n' + SEPARATOR + '\n' + action,
             temperature=0.6, max_tokens=90, top_p=1, frequency_penalty=0.2,presence_penalty=0.58, stop=[SEPARATOR]
         )
+        text = str(response.choices[0].text).split('"""')[0]
         list_testimonial = list(
-            map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+            map(lambda feature: ' '.join(feature.split()), re.split('\d\.', text)))
 
         print(' -- Result testimonials bios: {}'.format(list_testimonial))
         return list_testimonial
@@ -71,7 +72,8 @@ class OpenAIController(object):
             temperature=0.9, max_tokens=15, top_p=1, frequency_penalty=0.7, presence_penalty=0.88,
             stop=[SEPARATOR]
         )
-        names_list = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+        text = str(response.choices[0].text).split('"""')[0]
+        names_list = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', text)))
 
         print(' -- Result testimonials names: {}'.format(names_list))
         return names_list
@@ -168,9 +170,18 @@ class OpenAIController(object):
         roles_list = OpenAIController.get_sample_testimonial_roles()
         testimonial_bio_list = OpenAIController.get_sample_testimonial_bio(description)
 
+        for i in range(len(names_list)):
+            if names_list[i] == " " or names_list[i] == "": names_list[i] = "James Milner"
+        for i in range(len(roles_list)):
+            if roles_list[i] == " " or roles_list[i] == "": roles_list[i] = " Developer"
+        for i in range(len(names_list)):
+            if names_list[i] == " " or names_list[i] == "": names_list[i] = "I loved using the product"
+
         while len(names_list) < 3: names_list.append("Simon Tyler")
         while len(roles_list) < 3: roles_list.append("Customer")
         while len(testimonial_bio_list) < 3: testimonial_bio_list.append("This product is amazing")
+
+
 
         return {"names": names_list, "roles": roles_list, "testimonials": testimonial_bio_list}
 
