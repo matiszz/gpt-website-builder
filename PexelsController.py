@@ -1,4 +1,3 @@
-from dotenv import dotenv_values
 from pexels_api import API
 import os
 from os.path import join, dirname
