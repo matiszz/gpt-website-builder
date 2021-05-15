@@ -63,10 +63,13 @@ def hello():
         abort(403)
 
 
+
 if __name__ == '__main__':
-    htmlGen = HTMLGenerator()
-    openAI = OpenAIController()
-    pexels = PexelsController()
+    app.run()
+
+    #htmlGen = HTMLGenerator()
+    #openAI = OpenAIController()
+    #pexels = PexelsController()
 
     blocks = openAI.get_landing_blocks(sample_info['product_type'])
     print(blocks)
