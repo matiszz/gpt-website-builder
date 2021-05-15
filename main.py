@@ -1,15 +1,21 @@
 from OpenAIController import OpenAIController
 from PexelsController import PexelsController
+from HTMLGenerator import HTMLGenerator
 
-sample_description = "Velox is a real-time platform that helps remote teams keeping organized chats. In Velox, " \
-                     "you can create new conversations for different topics. "
 
+# Sample data, we should get this with TypeForm
+info = {
+    'description': "Velox is a real-time platform that helps remote teams keeping organized chats. In Velox, can create new conversations for different topics. It also allows you to create different domain levels and organize users in addresses. ",
+    'product_type': "a SaaS product",
+    'address': "C/ Jordi Girona, 21, Barcelona",
+    'email': 'info@fib.edu',
+    'phone_number': '+34672900943',
+    'web_name': "Velox"
+}
 
 if __name__ == '__main__':
-    # execute only if run as the entry point into the program
-
+    htmlGen = HTMLGenerator()
     openAI = OpenAIController()
-    openAI.get_tagline(sample_description)
 
-    openAI.get_sample_testimonial_bio(sample_description)
-
+    blocks = openAI.get_landing_blocks(info['product_type'])
+    htmlGen.create_result_file(blocks, info)
