@@ -15,10 +15,10 @@ api = API(PEXELS_API_KEY)
 
 class PexelsController(object):
     def __init__(self):
-        print("Pexels Controller created")
+        print("Pexels Controller screated")
 
     @staticmethod
-    def search_photo(photo, size):
-        api.search(photo, page=1, results_per_page=1)
+    def search_photo(photo, size, page=1):
+        api.search(photo, page=page, results_per_page=1)
         photos_result = api.get_entries()
         return getattr(photos_result[0], size)
