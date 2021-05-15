@@ -1,5 +1,5 @@
-# import os.path
-# import webbrowser
+import os.path
+import webbrowser
 from Populator import Populator
 
 FILE_NAME = 'templates/generated/index.html'
@@ -39,16 +39,25 @@ class HTMLGenerator(object):
 
     @staticmethod
     def create_result_file(html_blocks, web_info):
-        result_file = open(FILE_NAME, 'w')
+        result_text = ''
 
         # Insert the 'head' block at the beginning
         html_blocks.insert(0, 'head')
         html_blocks.insert(0, 'testimonials')
 
         for block_name in html_blocks:
-            result_file.write(get_populated_html_content(block_name, web_info))
+            result_text += get_populated_html_content(block_name, web_info)
 
-        # Close file and open in browser
+        result_file = open(FILE_NAME, 'w')
+        result_file.write(result_text)
         result_file.write("</body>\n</html>")
         result_file.close()
-        # webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
+
+        webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
+
+    @staticmethod
+    def create_loading_file():
+        loading_file = open("blocks/loading.html", 'r')
+        result_file = open(FILE_NAME, 'w')
+        result_file.write(loading_file.read())
+        webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
