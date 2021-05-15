@@ -23,7 +23,7 @@ if __name__ == '__main__':
     pexels = PexelsController()
 
     blocks = openAI.get_landing_blocks(info['product_type'])
-    #print(blocks)
+    print(blocks)
 
     keywords = openAI.get_image_keywords(info['description'])
     info['photo1'] = pexels.search_photo(keywords, "large", 1)
