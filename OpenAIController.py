@@ -140,10 +140,15 @@ class OpenAIController(object):
             presence_penalty=0,
             stop=[SEPARATOR]
         )
+
+        print(response)
         result = list(map(lambda feature: ' '.join(feature.split()), re.split('- ', response.choices[0].text)))
+        print(result)
 
         if len(result) < 3:
+            print('Not enough links')
             return self.get_navbar_links(product_type)
 
         result[2] = result[2].replace('CTA: ', '')
+        print(result)
         return result

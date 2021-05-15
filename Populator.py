@@ -46,7 +46,7 @@ class Populator(object):
         return content.format(tagline=tagline, copy=copy, image_src=image_src)
 
     def populate_navbar_html(self, content, web_name, description):
-        links = self.openAI.get_copy(description)
+        links = self.openAI.get_navbar_links(description)
         return content.format(web_name=web_name, link_1=links[0], link_2=links[1], link_3_cta=links[2])
 
     @staticmethod
@@ -60,11 +60,14 @@ class Populator(object):
         features_business = ""
 
         for feature in features['start']:
-            features_start += get_pricing_feature(feature)
+            if feature != '':
+                features_start += get_pricing_feature(feature)
         for feature in features['pro']:
-            features_pro += get_pricing_feature(feature)
+            if feature != '':
+                features_pro += get_pricing_feature(feature)
         for feature in features['business']:
-            features_business += get_pricing_feature(feature)
+            if feature != '':
+                features_business += get_pricing_feature(feature)
 
         return content.format(
             web_name=web_name,

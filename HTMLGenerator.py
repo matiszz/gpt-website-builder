@@ -29,6 +29,7 @@ def get_populated_html_content(block_name, web_info):
             return populator.populate_testimonial_html(block_file.read())
     except IOError:
         print("{} does not exist as HTML".format(block_name))
+        return ""
 
 
 class HTMLGenerator(object):
