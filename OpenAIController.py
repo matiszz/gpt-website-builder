@@ -1,8 +1,13 @@
 from dotenv import dotenv_values
 import openai
 import re
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
-openai.api_key = dotenv_values(".env")['OPENAI_API_KEY']
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 SEPARATOR = "\"\"\"\"\"\""
 

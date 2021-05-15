@@ -1,12 +1,17 @@
-import flask
 from OpenAIController import OpenAIController
 from HTMLGenerator import HTMLGenerator
 from PexelsController import PexelsController
 from flask import Flask, render_template, request, abort
-from dotenv import dotenv_values
+
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+MAGIC_KEY = os.environ.get("MAGIC_KEY")
 
 app = Flask(__name__)
-MAGIC_KEY = dotenv_values(".env")['MAGIC_KEY']
 
 sample_info = {
     'description': "Velox is a real-time platform that helps remote teams keeping organized chats. In Velox, can create new conversations for different topics. It also allows you to create different domain levels and organize users in addresses. ",
@@ -63,8 +68,8 @@ if __name__ == '__main__':
     openAI = OpenAIController()
     pexels = PexelsController()
 
-    # blocks = openAI.get_landing_blocks(sample_info['product_type'])
-
+    blocks = openAI.get_landing_blocks(sample_info['product_type'])
+    print(blocks)
     # keywords = openAI.get_image_keywords(sample_info['description'])
     # sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
     # sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
