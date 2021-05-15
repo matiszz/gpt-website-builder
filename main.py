@@ -1,5 +1,7 @@
 from OpenAIController import OpenAIController
+from PexelsController import PexelsController
 from HTMLGenerator import HTMLGenerator
+
 
 # Sample data, we should get this with TypeForm
 info = {
@@ -16,5 +18,4 @@ if __name__ == '__main__':
     openAI = OpenAIController()
 
     blocks = openAI.get_landing_blocks(info['product_type'])
-
     htmlGen.create_result_file(blocks, info)
