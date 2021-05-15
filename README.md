@@ -76,7 +76,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## 📞 Contact
 
 Joffre Alcivar - 🐤 [@jaroffrear](https://twitter.com/jaroffrear) · 📧 XXX · 💻 [XX](https://XX.com)
+
 Mohamed Benali - 🐤 [@XX](https://twitter.com/XX) · 📧 XXX · 💻 [XX](https://XX.com)
+
 Matias Szarfer - 🐤 [@matiasszarfer](https://twitter.com/matiasszarfer) · 📧 matias@szarfer.com · 💻 [matiasszarfer.com](https://matiasszarfer.com)
 
 Project Link: [https://github.com/matiszz/gpt-website-builder](https://github.com/matiszz/gpt-website-builder)
