@@ -123,6 +123,19 @@ class OpenAIController(object):
         )
         return list(map(lambda feature: ' '.join(feature.split()).lower(), re.split('- ', response.choices[0].text)))
 
+    @staticmethod
+    def get_image_keywords(description):
+        print('Generating keywords...')
+
+        instruction = "Text: {}\n\n".format(description)
+        action = "Keywords:"
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=instruction + action,
+            temperature=0.3, max_tokens=20, top_p=1, frequency_penalty=0.8, presence_penalty=0, stop=["\n"]
+        )
+        return ' '.join(response.choices[0].text.split())
+
     def get_navbar_links(self, product_type):
         print('Generating navbar links...')
 
@@ -131,25 +144,18 @@ class OpenAIController(object):
         example2 = "Description: A website for a lawyer's firm:\n- Our services\n- Experience\n- CTA: Contact\n"
         example3 = "Description: A website for a trainer:\n- Training\n- Clients\n- CTA: Book now!\n"
         completion = "Description: A website for a {}:\n-".format(product_type)
+
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + example1 + SEPARATOR + '\n' + example2 + SEPARATOR + '\n' + example3 + SEPARATOR + '\n' + completion,
-            temperature=0.7,
-            max_tokens=10,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            stop=[SEPARATOR]
+            temperature=0.7, max_tokens=10, top_p=1, frequency_penalty=0, presence_penalty=0, stop=[SEPARATOR]
         )
 
-        print(response)
         result = list(map(lambda feature: ' '.join(feature.split()), re.split('- ', response.choices[0].text)))
-        print(result)
 
         if len(result) < 3:
             print('Not enough links')
             return self.get_navbar_links(product_type)
 
         result[2] = result[2].replace('CTA: ', '')
-        print(result)
         return result

@@ -41,11 +41,9 @@ class Populator(object):
     def populate_testimonial_html(content):
         return content
 
-    def populate_hero_html(self, content, description):
+    def populate_hero_html(self, content, description, image_src):
         tagline = self.openAI.get_tagline(description)
         copy = self.openAI.get_copy(description)
-        # TODO: Change
-        image_src = 'https://images.pexels.com/photos/7473282/pexels-photo-7473282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
 
         return content.format(tagline=tagline, copy=copy, image_src=image_src)
 

@@ -20,7 +20,7 @@ def get_populated_html_content(block_name, web_info):
         elif block_name == 'head':
             return populator.populate_head_html(block_file.read(), web_info['web_name'])
         elif block_name == 'hero':
-            return populator.populate_hero_html(block_file.read(), web_info['description'])
+            return populator.populate_hero_html(block_file.read(), web_info['description'], web_info['photo1'])
         elif block_name == 'navbar':
             return populator.populate_navbar_html(block_file.read(), web_info['web_name'], web_info['description'])
         elif block_name == 'pricing':
