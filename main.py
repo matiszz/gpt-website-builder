@@ -1,5 +1,4 @@
 import os.path
-
 from OpenAIController import OpenAIController
 import webbrowser
 
@@ -8,6 +7,24 @@ sample_description = "Velox is a real-time platform that helps remote teams keep
                      "domain levels and organize users in addresses. "
 
 sample_product_type = "a SaaS product"
+
+FILE_NAME = 'generated/index.html'
+
+
+def create_result_file(html_blocks):
+    result_file = open(FILE_NAME, 'w')
+
+    # Insert the 'head' block at the beginning
+    html_blocks.insert(0, 'head')
+
+    for block_name in html_blocks:
+        block_file = open("blocks/{}.html".format(block_name), 'r')
+        result_file.write(block_file.read())
+
+    result_file.write("</body>\n</html>")
+    result_file.close()
+    webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
+
 
 if __name__ == '__main__':
     # execute only if run as the entry point into the program
@@ -21,13 +38,4 @@ if __name__ == '__main__':
 
     blocks = ['navbar', 'features', 'hero', 'pricing', 'contact']
     print("blocks: {}".format(blocks))
-
-    result_file = open('generated/index.html', 'w')
-    blocks.insert(0, 'head')
-    for block_name in blocks:
-        block_file = open("blocks/{}.html".format(block_name), 'r')
-        result_file.write(block_file.read())
-
-    result_file.write("</body>\n</html>")
-    result_file.close()
-    webbrowser.open('file:///home/mati/Code/Projects/gpt-website-builder/generated/index.html', new=2)
+    create_result_file(blocks)
