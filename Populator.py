@@ -37,6 +37,10 @@ class Populator(object):
     def populate_head_html(content, web_name):
         return content.format(web_name=web_name)
 
+    @staticmethod
+    def populate_testimonial_html(content):
+        return content
+
     def populate_hero_html(self, content, description):
         tagline = self.openAI.get_tagline(description)
         copy = self.openAI.get_copy(description)
@@ -48,10 +52,6 @@ class Populator(object):
     def populate_navbar_html(self, content, web_name, description):
         links = self.openAI.get_navbar_links(description)
         return content.format(web_name=web_name, link_1=links[0], link_2=links[1], link_3_cta=links[2])
-
-    @staticmethod
-    def populate_testimonial_html(content):
-        return content
 
     def populate_pricing_html(self, content, description, web_name):
         features = self.openAI.get_pricing_features(description)
