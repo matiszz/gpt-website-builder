@@ -1,3 +1,4 @@
 openai
 python-dotenv
 pexels_api
+flask
