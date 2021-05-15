@@ -37,21 +37,6 @@ class Populator(object):
     def populate_head_html(content, web_name):
         return content.format(web_name=web_name)
 
-    @staticmethod
-    def populate_testimonial_html(content):
-        return content
-    def populate_hero_html(self, content, description):
-        tagline = self.openAI.get_tagline(description)
-        copy = self.openAI.get_copy(description)
-        # TODO: Change
-        image_src = 'https://images.pexels.com/photos/7473282/pexels-photo-7473282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-
-        return content.format(tagline=tagline, copy=copy, image_src=image_src)
-
-    @staticmethod
-    def populate_navbar_html(content):
-        return content
-
     def populate_testimonial_html(self, content, web_info):
         features = self.openAI.get_testimonial_features(web_info)
         return content.format(

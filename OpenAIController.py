@@ -12,17 +12,6 @@ class OpenAIController(object):
     def __init__(self):
         print("OpenAI Controller created")
 
-    ### HELPERS ###
-    @staticmethod
-    def list2string(list_of_strings):
-        result = ""
-        for name in list_of_strings:
-            result = result + name + "\n" + SEPARATOR + "\n"
-        return result
-
-    ### METHODS ###
-
-
     @staticmethod
     def get_tagline(description):
         print('Generating tagline...')
@@ -37,13 +26,10 @@ class OpenAIController(object):
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + example1 + '\n' + SEPARATOR + '\n' + example2 + '\n' + SEPARATOR + '\n' + completion,
-            temperature=0.4,
-            max_tokens=30,
-            top_p=1,
-            frequency_penalty=0.1,
-            presence_penalty=0.3,
-            stop=[SEPARATOR]
+            temperature=0.4, max_tokens=30, top_p=1, frequency_penalty=0.1, presence_penalty=0.3, stop=[SEPARATOR]
         )
+
+        print(' -- Result tagline: {}'.format(response.choices[0].text))
         return response.choices[0].text
 
     @staticmethod
@@ -54,29 +40,25 @@ class OpenAIController(object):
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + '\n' + SEPARATOR + '\n' + description + '\n' + SEPARATOR + '\n' + action + '\n' + SEPARATOR,
-            temperature=0.8,
-            max_tokens=50,
-            top_p=1,
-            frequency_penalty=0.2,
-            presence_penalty=0.4,
-            stop=[SEPARATOR]
+            temperature=0.8, max_tokens=50, top_p=1, frequency_penalty=0.2, presence_penalty=0.4, stop=[SEPARATOR]
         )
+
+        print(' -- Result copy: {}'.format(response.choices[0].text))
         return response.choices[0].text
 
     @staticmethod
     def get_sample_testimonial_bio(description):
-        #instruction = "A review of the product:"
-        #action = "This is user's product review experience:"
-        print()
         instruction = "A review of the product:"
         action = "This is a list of three user's product review experience: \n1."
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + '\n' + description + '\n' + SEPARATOR + '\n' + action,
-            temperature=0.5+0.1, max_tokens=60+30, top_p=1, frequency_penalty=0.1+0.1, presence_penalty=0.48+0.1, stop=[SEPARATOR]
+            temperature=0.6, max_tokens=90, top_p=1, frequency_penalty=0.2,presence_penalty=0.58, stop=[SEPARATOR]
         )
-        list_testimonial = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
-        print(list_testimonial)
+        list_testimonial = list(
+            map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+
+        print(' -- Result testimonials bios: {}'.format(list_testimonial))
         return list_testimonial
 
     @staticmethod
@@ -86,38 +68,28 @@ class OpenAIController(object):
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + "\n" + action,
-            temperature=0.5 + 0.4, max_tokens=15, top_p=1, frequency_penalty=0.1+0.6, presence_penalty=0.48+0.4, stop=[SEPARATOR]
+            temperature=0.9, max_tokens=15, top_p=1, frequency_penalty=0.7, presence_penalty=0.88,
+            stop=[SEPARATOR]
         )
-        namesList = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
-        print(namesList)
-        return namesList
+        names_list = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', response.choices[0].text)))
+
+        print(' -- Result testimonials names: {}'.format(names_list))
+        return names_list
 
     @staticmethod
     def get_sample_testimonial_roles():
-        instruction = "This are three roles:\n1. Product Designer\n2. UI Develeoper\n3. CIO\n"
+        instruction = "This are three roles:\n1. Product Designer\n2. UI Developer\n3. CIO\n"
         action = "This is a list of only three roles: \n1."
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + action,
-            temperature=0.5 + 0.4, max_tokens=20, top_p=1, frequency_penalty=0.1+0.4, presence_penalty=0.48+0.4, stop=[SEPARATOR]
+            temperature=0.9, max_tokens=20, top_p=1, frequency_penalty=0.5, presence_penalty=0.88, stop=[SEPARATOR]
         )
         text = str(response.choices[0].text).split('"""')[0]
-        rolesList = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', text)))
-        print(rolesList)
-        return rolesList
+        roles_list = list(map(lambda feature: ' '.join(feature.split()), re.split('\d\.', text)))
 
-    def get_testimonial_features(self, description):
-        namesList = OpenAIController.get_sample_testimonial_names()
-        rolesList = OpenAIController.get_sample_testimonial_roles()
-        testimonial_bioList = OpenAIController.get_sample_testimonial_bio(description)
-
-        while (len(namesList) < 3): namesList.append("Simon Tyler")
-        while (len(rolesList) < 3): rolesList.append("Customer")
-        while (len(testimonial_bioList) < 3): testimonial_bioList.append("This product is amazing")
-        return {"names": namesList, "roles": rolesList, "testimonials": testimonial_bioList}
-
-
-
+        print(' -- Result testimonials roles: {}'.format(roles_list))
+        return roles_list
 
     @staticmethod
     def get_pricing_features(description):
@@ -152,6 +124,10 @@ class OpenAIController(object):
             map(lambda feature: ' '.join(feature.split()),
                 re.split('\d\.', response_business.choices[0].text)))
 
+        print(' -- Result START features: {}'.format(response_start))
+        print(' -- Result PRO features: {}'.format(response_pro))
+        print(' -- Result BUSINESS features: {}'.format(response_business))
+
         return {"start": start_features, "pro": pro_features, "business": business_features}
 
     @staticmethod
@@ -165,13 +141,10 @@ class OpenAIController(object):
         response = openai.Completion.create(
             engine="davinci",
             prompt=instruction + SEPARATOR + '\n' + example1 + SEPARATOR + '\n' + example2 + SEPARATOR + '\n' + completion,
-            temperature=0.7,
-            max_tokens=30,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            stop=[SEPARATOR]
+            temperature=0.7, max_tokens=30, top_p=1, frequency_penalty=0, presence_penalty=0, stop=[SEPARATOR]
         )
+
+        print(' -- Result landing blocks: {}'.format(response))
         return list(map(lambda feature: ' '.join(feature.split()).lower(), re.split('- ', response.choices[0].text)))
 
     @staticmethod
@@ -185,7 +158,21 @@ class OpenAIController(object):
             prompt=instruction + action,
             temperature=0.3, max_tokens=20, top_p=1, frequency_penalty=0.8, presence_penalty=0, stop=["\n"]
         )
+
+        print(' -- Result image keywords: {}'.format(response.choices[0].text))
         return ' '.join(response.choices[0].text.split())
+
+    @staticmethod
+    def get_testimonial_features(description):
+        names_list = OpenAIController.get_sample_testimonial_names()
+        roles_list = OpenAIController.get_sample_testimonial_roles()
+        testimonial_bio_list = OpenAIController.get_sample_testimonial_bio(description)
+
+        while len(names_list) < 3: names_list.append("Simon Tyler")
+        while len(roles_list) < 3: roles_list.append("Customer")
+        while len(testimonial_bio_list) < 3: testimonial_bio_list.append("This product is amazing")
+
+        return {"names": names_list, "roles": roles_list, "testimonials": testimonial_bio_list}
 
     def get_navbar_links(self, product_type):
         print('Generating navbar links...')
@@ -208,5 +195,8 @@ class OpenAIController(object):
             print('Not enough links')
             return self.get_navbar_links(product_type)
 
-        result[2] = result[2].replace('CTA: ', '')
+        print(' -- Result navbar links: {}'.format(result))
+
+        result[2] = result[2].replace('CTA:', '')
+        if result[2] == '' or result[2] == ' ': result[2] = 'Sign Up'
         return result
