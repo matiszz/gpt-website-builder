@@ -6,10 +6,229 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body style="background: #000040" class="h-full flex flex-col justify-items-center items-center">
-    <h2 class="mt-16 text-5xl text-gray-200">We're creating your website...</h2>
-    <h4 class="mt-2 text-base italic text-gray-200">This is going to be amazing. You won't believe it.</h4>
-    <img src="./loading.gif" alt="">
-    <h4 class="mt-2 text-md italic text-gray-400">Ctrl + R to see the result.</h4>
+<body class="h-full flex flex-col justify-items-center items-center">
+<div class="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 rounded text-base text-gray-100 mt-4 md:mt-0 fixed right-4 bottom-4 z-50">
+    Built with WebTyping
+</div>
+<h2 class="mt-16 text-5xl">We're creating your website...</h2>
+<h4 class="mt-2 text-base italic">This is going to be amazing. You won't believe it.</h4>
+<div class="scene">
+    <div class="wrapper">
+        <ul class="ball">
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+            <li class="ring"></li>
+        </ul>
+    </div>
+</div>
+
+<h4 class="mt-2 text-md italic text-gray-400">Ctrl + R to see the result.</h4>
 </body>
+<style>
+    @keyframes roundandround {
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    @keyframes show {
+        to {
+            opacity: 1;
+        }
+    }
+
+    .scene {
+        width: 300px;
+        height: 300px;
+        margin: 2% auto;
+        perspective: 1000px;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        transform: rotateX(45deg) rotateY(45deg);
+        transform-style: preserve-3d;
+    }
+
+    .ball {
+        position: relative;
+        width: 70%;
+        height: 70%;
+        margin: 0 auto;
+        transform-style: preserve-3d;
+        animation: roundandround 7.5s 1.3s infinite linear;
+    }
+
+    .ball .ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 6px;
+        border-style: dashed;
+        border-radius: 50%;
+        opacity: 0;
+        animation: show 0.75s forwards ease-in-out;
+    }
+
+    .ring:nth-child(1) {
+        color: #8df435;
+        transform: rotateY(4deg);
+        animation-delay: 0s;
+    }
+
+    .ring:nth-child(2) {
+        color: #a8e526;
+        transform: rotateY(8deg);
+        animation-delay: 0.1s;
+    }
+
+    .ring:nth-child(3) {
+        color: #c2d11c;
+        transform: rotateY(12deg);
+        animation-delay: 0.2s;
+    }
+
+    .ring:nth-child(4) {
+        color: #c8cb1b;
+        transform: rotateY(16deg);
+        animation-delay: 0.3s;
+    }
+
+    .ring:nth-child(5) {
+        color: #deb21a;
+        transform: rotateY(20deg);
+        animation-delay: 0.4s;
+    }
+
+    .ring:nth-child(6) {
+        color: #ef9621;
+        transform: rotateY(24deg);
+        animation-delay: 0.5s;
+    }
+
+    .ring:nth-child(7) {
+        color: #f29122;
+        transform: rotateY(28deg);
+        animation-delay: 0.6s;
+    }
+
+    .ring:nth-child(8) {
+        color: #fb7430;
+        transform: rotateY(32deg);
+        animation-delay: 0.7s;
+    }
+
+    .ring:nth-child(9) {
+        color: #fe5944;
+        transform: rotateY(36deg);
+        animation-delay: 0.8s;
+    }
+
+    .ring:nth-child(10) {
+        color: #fe5548;
+        transform: rotateY(40deg);
+        animation-delay: 0.9s;
+    }
+
+    .ring:nth-child(11) {
+        color: #f83d61;
+        transform: rotateY(44deg);
+        animation-delay: 1s;
+    }
+
+    .ring:nth-child(12) {
+        color: #ec2b7d;
+        transform: rotateY(48deg);
+        animation-delay: 1.1s;
+    }
+
+    .ring:nth-child(13) {
+        color: #e82983;
+        transform: rotateY(52deg);
+        animation-delay: 1s;
+    }
+
+    .ring:nth-child(14) {
+        color: #d41e9f;
+        transform: rotateY(56deg);
+        animation-delay: 0.9s;
+    }
+
+    .ring:nth-child(15) {
+        color: #bd1aba;
+        transform: rotateY(60deg);
+        animation-delay: 0.8s;
+    }
+
+    .ring:nth-child(16) {
+        color: #b81ac0;
+        transform: rotateY(64deg);
+        animation-delay: 0.7s;
+    }
+
+    .ring:nth-child(17) {
+        color: #9c1fd7;
+        transform: rotateY(68deg);
+        animation-delay: 0.6s;
+    }
+
+    .ring:nth-child(18) {
+        color: #802aea;
+        transform: rotateY(72deg);
+        animation-delay: 0.5s;
+    }
+
+    .ring:nth-child(19) {
+        color: #7a2dee;
+        transform: rotateY(76deg);
+        animation-delay: 0.4s;
+    }
+
+    .ring:nth-child(20) {
+        color: #5f40f9;
+        transform: rotateY(80deg);
+        animation-delay: 0.3s;
+    }
+
+    .ring:nth-child(21) {
+        color: #4657fe;
+        transform: rotateY(84deg);
+        animation-delay: 0.2s;
+    }
+
+    .ring:nth-child(22) {
+        color: #425cfe;
+        transform: rotateY(88deg);
+        animation-delay: 0.1s;
+    }
+
+    .ring:nth-child(23) {
+        color: #2f77fb;
+        transform: rotateY(92deg);
+        animation-delay: 0s;
+    }
+</style>
 </html>
