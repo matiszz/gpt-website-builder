@@ -21,6 +21,8 @@ sample_info = {
     'web_name': "Velox"
 }
 
+htmlGen = HTMLGenerator()
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -29,12 +31,11 @@ def index():
 
 @app.route('/result', methods=['GET'])
 def result():
-    return render_template("generated/index.html")
+    return htmlGen.get_html()
 
 
 @app.route('/webhook', methods=['POST'])
 def hello():
-    htmlGen = HTMLGenerator()
     openAI = OpenAIController()
     pexels = PexelsController()
 
@@ -55,8 +56,7 @@ def hello():
         }
 
         blocks = openAI.get_landing_blocks(info['product_type'])
-        blocks = sortBlocks(blocks)
-
+        blocks = sort_blocks(blocks)
         keywords = openAI.get_image_keywords(info['description'])
         info['photo1'] = pexels.search_photo(keywords, "large", 1)
         info['photo2'] = pexels.search_photo(keywords, "large", 2)
@@ -69,18 +69,20 @@ def hello():
 
 
 def criteria(object):
-  return object['priority']
+    return object['priority']
 
-def sortBlocks(blocks):
+
+def sort_blocks(blocks):
     priorities = {"navbar": 1, "hero": 2, "features": 3, "pricing": 4, "testimonial": 5, "contact": 6, "footer": 7}
 
     blocks_obj = []
     for block in blocks:
         if block in priorities: blocks_obj.append({"block": block, "priority": priorities[block]})
     blocks_obj.sort(key=criteria)
-    returnBlocks = []
-    for single_Block in blocks_obj: returnBlocks.append(single_Block["block"])
-    return returnBlocks
+    return_blocks = []
+    for single_Block in blocks_obj: return_blocks.append(single_Block["block"])
+    return return_blocks
+
 
 if __name__ == '__main__':
     app.run()
@@ -92,9 +94,9 @@ if __name__ == '__main__':
 
     # blocks = openAI.get_landing_blocks(sample_info['product_type'])
 
-    #blocs = ['navbar', 'features', 'pricing', 'footer', 'hero']
-    #blocs = sortBlocks(blocs)
-    #print(blocs)
+    # blocs = ['navbar', 'features', 'pricing', 'footer', 'hero']
+    # blocs = sortBlocks(blocs)
+    # print(blocs)
     # keywords = openAI.get_image_keywords(sample_info['description'])
     # sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
     # sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
