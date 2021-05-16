@@ -75,7 +75,8 @@ def sortBlocks(blocks):
     priorities = {"navbar": 1, "hero": 2, "features": 3, "pricing": 4, "testimonial": 5, "contact": 6, "footer": 7}
 
     blocks_obj = []
-    for block in blocks: blocks_obj.append({"block": block, "priority": priorities[block]})
+    for block in blocks:
+        if block in priorities: blocks_obj.append({"block": block, "priority": priorities[block]})
     blocks_obj.sort(key=criteria)
     returnBlocks = []
     for single_Block in blocks_obj: returnBlocks.append(single_Block["block"])
@@ -90,7 +91,10 @@ if __name__ == '__main__':
     # htmlGen.create_loading_file()
 
     # blocks = openAI.get_landing_blocks(sample_info['product_type'])
-    # print(blocks)
+
+    #blocs = ['navbar', 'features', 'pricing', 'footer', 'hero']
+    #blocs = sortBlocks(blocs)
+    #print(blocs)
     # keywords = openAI.get_image_keywords(sample_info['description'])
     # sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
     # sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
