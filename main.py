@@ -53,6 +53,7 @@ def hello():
         }
 
         blocks = openAI.get_landing_blocks(info['product_type'])
+        blocks = sortBlocks(blocks)
 
         keywords = openAI.get_image_keywords(info['description'])
         info['photo1'] = pexels.search_photo(keywords, "large", 1)
@@ -65,17 +66,30 @@ def hello():
         abort(403)
 
 
+def criteria(object):
+  return object['priority']
+
+def sortBlocks(blocks):
+    priorities = {"navbar": 1, "hero": 2, "features": 3, "pricing": 4, "testimonial": 5, "contact": 6, "footer": 7}
+
+    blocks_obj = []
+    for block in blocks: blocks_obj.append({"block": block, "priority": priorities[block]})
+    blocks_obj.sort(key=criteria)
+    returnBlocks = []
+    for single_Block in blocks_obj: returnBlocks.append(single_Block["block"])
+    return returnBlocks
+
 if __name__ == '__main__':
-    # app.run()
+    app.run()
 
-    openAI = OpenAIController()
-    htmlGen = HTMLGenerator()
-    pexels = PexelsController()
+    #openAI = OpenAIController()
+    #htmlGen = HTMLGenerator()
+    #pexels = PexelsController()
 
-    # blocks = openAI.get_landing_blocks(sample_info['product_type'])
-    # print(blocks)
-    keywords = openAI.get_image_keywords(sample_info['description'])
-    sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
-    sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
+    #blocks = openAI.get_landing_blocks(sample_info['product_type'])
 
-    htmlGen.create_result_file(['features'], sample_info)
+    #keywords = openAI.get_image_keywords(sample_info['description'])
+    #sample_info['photo1'] = pexels.search_photo(keywords, "large", 1)
+    #sample_info['photo2'] = pexels.search_photo(keywords, "large", 2)
+
+    #htmlGen.create_result_file(['features'], sample_info)
