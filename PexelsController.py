@@ -20,6 +20,7 @@ class PexelsController(object):
 
     @staticmethod
     def search_photo(photo, size, page=1):
+        if photo == '' or photo is None: photo = "startup"
         api.search(photo, page=page, results_per_page=1)
         photos_result = api.get_entries()
         return getattr(photos_result[0], size)
