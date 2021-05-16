@@ -245,5 +245,5 @@ class OpenAIController(object):
         print(' -- Result navbar links: {}'.format(result))
 
         result[2] = result[2].replace('CTA:', '')
-        if result[2] == '' or result[2] == ' ': result[2] = 'Sign Up'
+        if result[2] == '' or result[2] == ' ' or result[2] == 'CTA': result[2] = 'Sign Up'
         return result
