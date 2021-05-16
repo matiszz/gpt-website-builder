@@ -53,11 +53,11 @@ class HTMLGenerator(object):
         result_file.write("</body>\n</html>")
         result_file.close()
 
-        webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
+        # webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
 
     @staticmethod
     def create_loading_file():
         loading_file = open("blocks/loading.html", 'r')
         result_file = open(FILE_NAME, 'w')
         result_file.write(loading_file.read())
-        webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
+        # webbrowser.open("file://{}".format(os.path.abspath(FILE_NAME)), new=2)
